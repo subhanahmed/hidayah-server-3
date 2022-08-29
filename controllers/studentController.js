@@ -8,7 +8,7 @@ const Program = require('../models/programModel');
 const getProgramById = asyncHandler(async (req, res) => {
     const  Program_Id  = req.params.id
     console.log(req.params.id)
-    const programCode = await Program.findOne({Program_Id}).select('ProgramCode')
+    const programCode = await Program.findOne({Program_Id}).select('ProgramCode -_id')
   console.log(programCode)
     if (programCode) {
       res.json(programCode)
