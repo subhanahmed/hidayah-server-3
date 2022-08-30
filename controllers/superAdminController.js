@@ -47,10 +47,22 @@ const getStudentById = asyncHandler(async (req, res) => {
   }
 })
 
+const getStudentByIdForAttenPage = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id).select('_id name programId role')
+
+  if (user) {
+    res.json(user)
+  } else {
+    res.status(404)
+    throw new Error('User not found')
+  }
+})
+
 module.exports = {
   students,
   faculties,
   studentsCount,
   facultiesCount,
-  getStudentById
+  getStudentById,
+  getStudentByIdForAttenPage
 } 
