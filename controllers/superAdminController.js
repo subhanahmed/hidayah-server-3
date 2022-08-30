@@ -48,13 +48,15 @@ const getStudentById = asyncHandler(async (req, res) => {
 })
 
 const getStudentByIdForAttenPage = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id).select('_id firstName lastName programId role')
+  const user = await User.findById(req.params.id).select('firstName lastName role').populate({path: 'programId' , select:["ProgramCode"]})
 
   if (user) {
     res.json(user)
   } else {
-    res.status(404)
-    throw new Error('User not found')
+    res.status(404).json({
+      success: false,
+      msg: 'Student Not found'
+    })
   }
 })
 
