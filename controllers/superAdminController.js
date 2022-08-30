@@ -48,7 +48,7 @@ const getStudentById = asyncHandler(async (req, res) => {
 })
 
 const getStudentByIdForAttenPage = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id).select('firstName lastName role').populate({path: 'programId' , select:["ProgramCode"]})
+  const user = await User.findById(req.params.id).select('firstName lastName role').populate({path: 'programId' , select:["Program_Name"]})
 
   if (user) {
     res.json(user)
