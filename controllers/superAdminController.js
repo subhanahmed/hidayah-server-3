@@ -48,7 +48,7 @@ const getStudentById = asyncHandler(async (req, res) => {
 })
 
 const getStudentByIdForAttenPage = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id).select('_id name programId role')
+  const user = await User.findById(req.params.id).select('_id firstName lastName programId role')
 
   if (user) {
     res.json(user)
