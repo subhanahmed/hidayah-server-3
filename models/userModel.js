@@ -94,8 +94,8 @@ const userSchema = mongoose.Schema(
             type: String
         },
         programId: {
-            type: 'string',
-            default: ''
+           type: mongoose.Schema.Types.ObjectId,
+            ref: 'Program'
         },
         activeToken: String,
         activeExpires: Date,
