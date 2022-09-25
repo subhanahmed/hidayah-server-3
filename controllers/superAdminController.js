@@ -37,6 +37,17 @@ const facultiesCount = asyncHandler(async (req, res) => {
 // @route   GET /api/superAdmin/student/:id
 // @access  Private/SuperAdmin
 const getStudentById = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id).select('-password')
+
+  if (user) {
+    res.json(user)
+  } else {
+    res.status(404)
+    throw new Error('User not found')
+  }
+})
+
+const getStudentByIdForAttenPage = asyncHandler(async (req, res) => {
   const arr1 = []
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   const date = new Date
