@@ -50,10 +50,10 @@ const getStudentById = asyncHandler(async (req, res) => {
 
 const getStudentByIdForAttenPage = asyncHandler(async (req, res) => {
   //const arr1 = []
-  //const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-  //const date = new Date
-  //const month = months[date.getMonth()]
-  //const year = date.getFullYear()
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const date = new Date
+  const month = months[date.getMonth()]
+  const year = date.getFullYear()
   //console.log(month)
   //const user = await User.findById(req.params.id).select('firstName lastName role').populate({ path: 'programId', select: ["Program_Name"] })
   //arr1.push(user)
