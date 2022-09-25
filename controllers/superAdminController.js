@@ -1,5 +1,7 @@
 const asyncHandler = require('express-async-handler')
 const User = require('../models/userModel.js')
+const Attendance = require('../models/attendanceModel')
+
 
 // @desc    Get all Students
 // @route   GET /api/superAdmin/students
@@ -48,17 +50,48 @@ const getStudentById = asyncHandler(async (req, res) => {
 })
 
 const getStudentByIdForAttenPage = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id).select('firstName lastName role').populate({path: 'programId' , select:["Program_Name"]})
 
+  const arr1 = []
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const date = new Date
+  const month = months[date.getMonth()]
+  const year = date.getFullYear()
+  //console.log(month)
+  const user = await User.findById(req.params.id).select('firstName lastName role').populate({ path: 'programId', select: ["Program_Name"] })
+  arr1.push(user)
+  const attendance = await Attendance.find({ 'User_id': req.params.id, 'Date': { $regex: month + '.*' + year } })
+  Array.prototype.push.apply(arr1, attendance);
+
+  //console.log(arr1)
   if (user) {
-    res.json(user)
-  } else {
+    res.json(arr1)
+  }
+  else {
     res.status(404).json({
       success: false,
       msg: 'Student Not found'
     })
   }
+
+
 })
+
+const getAttendanceByIdForAttenPage = asyncHandler(async (req, res) => {
+  console.log(req.params.id)
+  console.log(req.params.month)
+  console.log(req.params.year)
+  const attendance = await Attendance.find({ 'User_id': req.params.id, 'Date': { $regex: req.params.month + '.*' + req.params.year } })
+
+  if (attendance) {
+    res.json(attendance)
+  } else {
+    res.status(404).json({
+      success: false,
+      msg: 'attendance Not found'
+    })
+  }
+})
+
 
 module.exports = {
   students,
@@ -66,5 +99,6 @@ module.exports = {
   studentsCount,
   facultiesCount,
   getStudentById,
-  getStudentByIdForAttenPage
+  getStudentByIdForAttenPage,
+  getAttendanceByIdForAttenPage
 } 
