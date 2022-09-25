@@ -1,7 +1,5 @@
 const asyncHandler = require('express-async-handler')
 const User = require('../models/userModel.js')
-const Attendance = require('../models/attendanceModel')
-
 
 // @desc    Get all Students
 // @route   GET /api/superAdmin/students
@@ -39,18 +37,6 @@ const facultiesCount = asyncHandler(async (req, res) => {
 // @route   GET /api/superAdmin/student/:id
 // @access  Private/SuperAdmin
 const getStudentById = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id).select('-password')
-
-  if (user) {
-    res.json(user)
-  } else {
-    res.status(404)
-    throw new Error('User not found')
-  }
-})
-
-const getStudentByIdForAttenPage = asyncHandler(async (req, res) => {
-
   const arr1 = []
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   const date = new Date
@@ -72,26 +58,7 @@ const getStudentByIdForAttenPage = asyncHandler(async (req, res) => {
       msg: 'Student Not found'
     })
   }
-
-
 })
-
-const getAttendanceByIdForAttenPage = asyncHandler(async (req, res) => {
-  console.log(req.params.id)
-  console.log(req.params.month)
-  console.log(req.params.year)
-  const attendance = await Attendance.find({ 'User_id': req.params.id, 'Date': { $regex: req.params.month + '.*' + req.params.year } })
-
-  if (attendance) {
-    res.json(attendance)
-  } else {
-    res.status(404).json({
-      success: false,
-      msg: 'attendance Not found'
-    })
-  }
-})
-
 
 module.exports = {
   students,
@@ -99,6 +66,5 @@ module.exports = {
   studentsCount,
   facultiesCount,
   getStudentById,
-  getStudentByIdForAttenPage,
-  getAttendanceByIdForAttenPage
+  getStudentByIdForAttenPage
 } 
