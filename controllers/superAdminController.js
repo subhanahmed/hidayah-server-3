@@ -48,20 +48,20 @@ const getStudentById = asyncHandler(async (req, res) => {
 })
 
 const getStudentByIdForAttenPage = asyncHandler(async (req, res) => {
-  const arr1 = []
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-  const date = new Date
-  const month = months[date.getMonth()]
-  const year = date.getFullYear()
+  //const arr1 = []
+  //const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  //const date = new Date
+  //const month = months[date.getMonth()]
+  //const year = date.getFullYear()
   //console.log(month)
   const user = await User.findById(req.params.id).select('firstName lastName role').populate({ path: 'programId', select: ["Program_Name"] })
-  arr1.push(user)
-  const attendance = await Attendance.find({ 'User_id': req.params.id, 'Date': { $regex: month + '.*' + year } })
-  Array.prototype.push.apply(arr1, attendance);
+  //arr1.push(user)
+  //const attendance = await Attendance.find({ 'User_id': req.params.id, 'Date': { $regex: month + '.*' + year } })
+  //Array.prototype.push.apply(arr1, attendance);
 
   //console.log(arr1)
   if (user) {
-    res.json(arr1)
+    res.json(user)
   }
   else {
     res.status(404).json({
