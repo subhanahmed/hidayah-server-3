@@ -54,7 +54,7 @@ const getStudentByIdForAttenPage = asyncHandler(async (req, res) => {
   const date = new Date
   const month = months[date.getMonth()]
   const year = date.getFullYear()
-  console.log(month)
+  //console.log(month)
   const user = await User.findById(req.params.id).select('firstName lastName role').populate({ path: 'programId', select: ["Program_Name"] })
   arr1.push(user)
   const attendance = await Attendance.find({ 'User_id': req.params.id, 'Date': { $regex: month + '.*' + year } })
